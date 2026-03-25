@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+</head>
+
+<body>
+
+<h2>Admin Login</h2>
+
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+
+<div id="admin" style="display:none;">
+    <h3>Add Item</h3>
+    <input id="itemName" placeholder="Item Name">
+    <select id="type">
+        <option>Icecream</option>
+        <option>Cooldrink</option>
+    </select>
+    <button onclick="addItem()">Add</button>
+</div>
+
+<script>
+function login(){
+    fetch("/login", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            username: user.value,
+            password: pass.value
+        })
+    })
+    .then(res=>res.text())
+    .then(data=>{
+        if(data=="success"){
+            document.getElementById("admin").style.display="block";
+        } else {
+            alert("Wrong login");
+        }
+    });
+}
+
+function addItem(){
+    fetch("/add-item", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            name: itemName.value,
+            type: type.value
+        })
+    });
+    alert("Item Added!");
+}
+</script>
+
+</body>
+</html>

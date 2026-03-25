@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sri Sai Krupa Icecream Parlour</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>🍦 Sri Sai Krupa Icecream Parlour</h1>
+
+<div id="items"></div>
+
+<script>
+fetch("/items")
+.then(res => res.json())
+.then(data => {
+    let html = "";
+    data.forEach(i => {
+        html += `<div class="card">
+                    ${i.name}
+                    <button onclick="order('${i.name}')">Order</button>
+                 </div>`;
+    });
+    document.getElementById("items").innerHTML = html;
+});
+
+function order(item){
+    fetch("/order", {
+        method:"POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({item})
+    });
+    alert("Order placed!");
+}
+</script>
+
+</body>
+</html>
